@@ -1,8 +1,8 @@
 require 'socket'
 require 'pry'
-require './ethernet'
-require './ipv4'
-require './tcp'
+require './lib/ethernet'
+require './lib/ipv4'
+require './lib/tcp'
 
 include Socket::Constants
 
@@ -34,5 +34,3 @@ while true
     end
   end
 end
-
-socket.close
