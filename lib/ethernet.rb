@@ -5,9 +5,9 @@ class Ethernet
   attr_accessor :dest, :src, :proto, :data
 
   def initialize(raw_data)
-      dest = raw_data[0...6]
-      src = raw_data[6...12]
-      prototype = raw_data[12..14].unpack('h').first.to_i
+      dest = raw_data[0...5]
+      src = raw_data[6..11]
+      prototype = raw_data[12..13].unpack('h').first.to_i
 
       @dest = get_mac_addr(dest)
       @src = get_mac_addr(src)
