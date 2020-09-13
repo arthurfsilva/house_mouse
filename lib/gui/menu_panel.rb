@@ -2,7 +2,12 @@ class MenuPanel < Panel
   def initialize(height:, width:, top:, left:)
     super(height, width, top, left)
     
-    @panel << "[F1 Help] [F2 Filter] [F3 Search] [F4 Sortby] [F5 Start] [F10 exit]"
+    redraw() 
+  end
+
+  def redraw(items = {s: 'Start', f: 'Filter', e: 'Search', sb: 'Sortby', h: 'Help', q: 'Quit' })
+    @panel.clear
+    items.each { @panel << " [#{_1[0].upcase}] #{_1[1]}" }
     @panel.refresh
   end
 end
