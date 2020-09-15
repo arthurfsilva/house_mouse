@@ -6,28 +6,47 @@ class RequestPanel < Panel
     
     @panel.keypad(true)
     @panel.nodelay = true
-    @panel.box('|', '_', '+')
+    render_content([])
+  end
+
+  def render_content(requests, index = 0)
+    draw_window()
+
+    requests.each_with_index do |request, key|
+      @panel.setpos(key + 2, 2)
+      @panel << '-> ' if key == index
+      @panel.addstr("Source: #{request[:source]} | Destination: #{request[:destination]} | Protocol: #{request[:protocol]}")
+      @panel.setpos(key + 3, 2)
+      @panel.addstr('')
+      @panel.setpos(key + 4, 8)
+    end
+    
+    @panel.refresh
+  end
+  
+  def render_body(request)
+    draw_window()
+    @body_viewer = true
+    
+    @panel.setpos(2, 2)
+    @panel.addstr("Source: #{request[:source]} | Destination: #{request[:destination]} | Protocol: #{request[:protocol]}")
+    @panel.setpos(4, 2)
+    @panel.addstr("Data: ")
+
+    unless request[:data].nil?
+      request[:data].split("\n").each_with_index do |line, index|
+        @panel.setpos(index + 4, 8)
+        @panel << line
+      end
+    end 
 
     @panel.refresh
   end
 
-  def render_content(requests)
+  def draw_window()
     @panel.clear
 
     @panel.box('|', '_', '+')
-    @panel.refresh
-
-    top = 1
-    requests.each_with_index do |request, index|
-      @panel.setpos(index + 2, 2)
-      @panel.addstr(" > Source: #{request[:source]} | Destination: #{request[:destination]} | Protocol: #{request[:protocol]}")
-      @panel.setpos(index + 3, 2)
-      @panel.addstr('')
-      @panel.setpos(index + 4, 8)
-
-      # @panel.addstr("Data: #{request[:data]}")
-    end
-    
     @panel.refresh
   end
 end

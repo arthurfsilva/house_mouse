@@ -2,7 +2,7 @@ class Tcp
   attr_accessor :data, :src_port, :dest_port, :sequence, :acknowledgment, :flags
 
   def initialize(raw_data)
-    @flags = {
+    @flags = { #TODO Implement this flags
       urg: nil,
       ack: nil,
       psh: nil,

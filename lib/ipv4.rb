@@ -30,6 +30,10 @@ class Ipv4
     @data = raw_data[@header_length...]
   end
 
+  def tcp?
+    @proto == 6
+  end
+
   def ipv4(addr)
     addr.join('.')
   end
