@@ -25,7 +25,16 @@ class MenuPanel < Panel
         requests = Sniffer.start(socket, request_panel)
         redraw()
       when 'f'
-        puts 'filter'
+        redraw(search: true)
+        
+        char = ''
+
+        while char != 10 #TODO backspace
+          char += @panel.getch
+
+          requests = requests.filter { |request| request[:destination].match(char) }
+          Sniffer.filter(requests, request_panel)
+        end
       when 'c'
         puts 'clear'
         request_panel.draw_window

@@ -29,4 +29,8 @@ class Sniffer
     
     requests
   end
+
+  def self.filter(requests, request_panel)
+    request_panel.render_content(requests)
+  end
 end
