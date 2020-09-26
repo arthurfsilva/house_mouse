@@ -16,8 +16,8 @@ class Tcp
     @src_port = data[0..1].join.to_i
     @dest_port = data[2..3].join.to_i
     offset = data[12] >> 4
-    
+    offset = offset * 4
+  
     @data = raw_data[offset...] 
   end
 end
-

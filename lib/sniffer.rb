@@ -3,7 +3,7 @@ class Sniffer
     requests = []
 
     40.times do # TODO: Change to 15 seconds
-      raw_data = socket.recvfrom(65_535)
+      raw_data, addr = socket.recvfrom(65_535)
 
       ethernet = Ethernet.new(raw_data)
 
