@@ -1,35 +1,35 @@
 class MenuPanel < Panel
   def initialize(height:, width:, top:, left:)
     super(height, width, top, left)
-    
-    redraw() 
+
+    redraw
   end
 
-  def redraw(items = {s: 'Start', f: 'Filter', c: 'Clear', sb: 'Sortby', h: 'Help', q: 'Quit' })
+  def redraw(items = { s: 'Start', f: 'Filter', c: 'Clear', sb: 'Sortby', h: 'Help', q: 'Quit' })
     @panel.clear
-    items.each { @panel << " [#{_1[0].upcase}] #{_1[1]}" }.then { @panel.refresh  }
+    items.each { @panel << " [#{_1[0].upcase}] #{_1[1]}" }.then { @panel.refresh }
   end
 
   def handle_keyboard(request_panel)
-    index = 0  
+    index = 0
     requests = []
 
     socket = Socket.new(17, 3, 768)
 
-    while true
+    loop do
       chr = @panel.getch
-      
+
       case chr
       when 's'
-        redraw({s: 'Stop', f: 'Filter', c: 'Clear', sb: 'Sortby', h: 'Help', q: 'Quit' })
+        redraw({ s: 'Stop', f: 'Filter', c: 'Clear', sb: 'Sortby', h: 'Help', q: 'Quit' })
         requests = Sniffer.start(socket, request_panel)
-        redraw()
+        redraw
       when 'f'
         redraw(search: true)
-        
+
         char = ''
 
-        while char != 10 #TODO backspace
+        while char != 10 # TODO: backspace
           char += @panel.getch
 
           requests = requests.filter { |request| request[:destination].match(char) }
@@ -41,7 +41,7 @@ class MenuPanel < Panel
       when 'h'
         puts 'Help'
       when 'q'
-        close()
+        close
         exit(0)
       when 'j'
         index += 1 if index < requests.length
