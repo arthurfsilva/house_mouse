@@ -12,13 +12,27 @@ class RequestPanel < Panel
   def render_content(requests, index = 0)
     draw_window
 
+    # TODO Refactory
+    @panel.setpos(1, 2)
+    @panel.addstr("|   Source \t\t\t| Destination \t\t\t| Protocol \t\t | Info \t\t |")
+    @panel.setpos(2, 2)
+    @panel.addstr("|_____________________________|_______________________________|________________________|_______________________|")
+    
     requests.each_with_index do |request, key|
-      @panel.setpos(key + 2, 2)
-      @panel << '-> ' if key == index
-      @panel.addstr("Source: #{request[:source]} | Destination: #{request[:destination]} | Protocol: #{request[:protocol]}")
       @panel.setpos(key + 3, 2)
+      @panel << '-> ' if key == index
+
+      info = request[:data]&.split("\n")[0]&.slice(0..14)&.rstrip
+      
+      @panel.setpos(key + 3, 5)
+     
+      @panel.addstr(
+        "#{request[:source]}\t\t| #{request[:destination].rstrip} \t\t| #{request[:protocol].rstrip}  \t\t\t | #{ info } ")
+
+      @panel.setpos(key + 4, 2)
+
       @panel.addstr('')
-      @panel.setpos(key + 4, 8)
+      @panel.setpos(key + 5, 8)
     end
 
     @panel.refresh

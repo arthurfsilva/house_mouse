@@ -5,7 +5,7 @@ class MenuPanel < Panel
     redraw
   end
 
-  def redraw(items = { s: 'Start', f: 'Filter', c: 'Clear', sb: 'Sortby', h: 'Help', q: 'Quit' })
+  def redraw(items = { s: 'Start', f: 'Filter', c: 'Clear', sb: 'SortBy', h: 'Help', q: 'Quit' })
     @panel.clear
     items.each { @panel << " [#{_1[0].upcase}] #{_1[1]}" }.then { @panel.refresh }
   end
@@ -25,14 +25,26 @@ class MenuPanel < Panel
         requests = Sniffer.start(socket, request_panel)
         redraw
       when 'f'
-        redraw(search: true)
+        redraw(filter: ' ')
+
+        Curses.echo
 
         char = ''
+        input = ''
 
-        while char != 10 # TODO: backspace
-          char += @panel.getch
+        while input != 10 # TODO: backspace
+          input = @panel.getch
 
+          puts input
+
+          if input == 127          
+            char = char.chop
+          else
+            char += input
+          end
+          
           requests = requests.filter { |request| request[:destination].match(char) }
+          
           Sniffer.filter(requests, request_panel)
         end
       when 'c'
@@ -50,8 +62,10 @@ class MenuPanel < Panel
         index -= 1 if index > 0
         request_panel.render_content(requests, index)
       when 10
-        request_panel.render_body(requests[index])
+        redraw({ b: 'Back'})
+        request_panel.render_body(requests[index])        
       when 'b'
+        redraw({ s: 'Start', f: 'Filter', c: 'Clear', sb: 'Sortby', h: 'Help', q: 'Quit' })
         request_panel.render_content(requests, index)
       end
 
