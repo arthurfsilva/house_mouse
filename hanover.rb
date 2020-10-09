@@ -8,10 +8,15 @@ require './lib/http'
 require './lib/sniffer'
 require './lib/gui/request_panel'
 require './lib/gui/menu_panel'
+include Curses
 
 Curses.init_screen
 Curses.curs_set(0)
 Curses.noecho
+Curses.start_color
+
+Curses.init_pair(COLOR_BLUE,COLOR_WHITE, COLOR_BLUE) 
+Curses.init_pair(COLOR_RED,COLOR_BLACK,COLOR_MAGENTA)
 
 lines = Curses.lines
 cols = Curses.cols

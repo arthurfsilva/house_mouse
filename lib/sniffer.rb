@@ -2,7 +2,7 @@ class Sniffer
   def self.start(socket, request_panel)
     requests = []
 
-    40.times do # TODO: Change to 15 seconds
+    50.times do # TODO: Change to 15 seconds
       raw_data, addr = socket.recvfrom(65_535)
 
       ethernet = Ethernet.new(raw_data)
@@ -21,6 +21,7 @@ class Sniffer
         source: "#{ipv4.src}:#{tcp.src_port}",
         destination: "#{ipv4.dest}:#{tcp.dest_port}",
         data: Http.new(tcp.data).data,
+        flags: tcp.flags,
         protocol: 'TCP'
       }
 

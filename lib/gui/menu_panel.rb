@@ -8,6 +8,7 @@ class MenuPanel < Panel
   def redraw(items = { s: 'Start', f: 'Filter', c: 'Clear', sb: 'SortBy', h: 'Help', q: 'Quit' })
     @panel.clear
     items.each { @panel << " [#{_1[0].upcase}] #{_1[1]}" }.then { @panel.refresh }
+    @panel.refresh
   end
 
   def handle_keyboard(request_panel)
@@ -15,6 +16,7 @@ class MenuPanel < Panel
     requests = []
 
     socket = Socket.new(17, 3, 768)
+    @panel.keypad = true
 
     loop do
       chr = @panel.getch
@@ -27,49 +29,51 @@ class MenuPanel < Panel
       when 'f'
         redraw(filter: ' ')
 
-        Curses.echo
-
         char = ''
         input = ''
 
-        while input != 10 # TODO: backspace
+        while input != 10
           input = @panel.getch
-
-          puts input
-
+          
           if input == 127          
             char = char.chop
+            input = ''
           else
             char += input
           end
           
-          requests = requests.filter { |request| request[:destination].match(char) }
+          @panel << input
+
+          requests = requests.filter do |request|
+            request[:destination].match(char) || request[:source].match(char) || request[:protocol].match(char)
+          end
           
           Sniffer.filter(requests, request_panel)
         end
       when 'c'
-        puts 'clear'
         request_panel.draw_window
       when 'h'
         puts 'Help'
       when 'q'
         close
         exit(0)
-      when 'j'
-        index += 1 if index < requests.length
-        request_panel.render_content(requests, index)
-      when 'k'
-        index -= 1 if index > 0
-        request_panel.render_content(requests, index)
+      when KEY_UP
+        if index > 0
+          index -= 1 
+          request_panel.render_content(requests, index)
+        end
+      when KEY_DOWN
+        if index < requests.length - 1
+          index += 1 
+          request_panel.render_content(requests, index)
+        end
       when 10
         redraw({ b: 'Back'})
         request_panel.render_body(requests[index])        
       when 'b'
-        redraw({ s: 'Start', f: 'Filter', c: 'Clear', sb: 'Sortby', h: 'Help', q: 'Quit' })
+        redraw
         request_panel.render_content(requests, index)
       end
-
-      @panel.refresh
     end
   end
 end
