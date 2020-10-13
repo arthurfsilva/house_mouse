@@ -13,6 +13,7 @@ House Mouse is a packet sniffer written in ruby with an awesome <a href="https:/
 <img src="./docs/screenshot1.png">
 
 ## IN ACTION
+<img src="./docs/firstcapture.gif">
 
 
 ## TODO
