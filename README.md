@@ -1,7 +1,7 @@
 <p align="center"><img src="./docs/logo.png" width="170"></p>
 
 <p align="center">
-<a href="https://travis-ci.org/arthurfsilva/house_mouse"><img src="https://travis-ci.org/arthurfsilva/house_mouse.svg" alt="Build Status"></a>
+<a href="https://travis-ci.org/arthurfsilva/house_mouse"><img src="https://travis-ci.org/arthurfsilva/house_mouse.svg?branch=master" alt="Build Status"></a>
 <img src="https://img.shields.io/badge/license-MIT-brightgreen" alt="License">
 </p>
 
