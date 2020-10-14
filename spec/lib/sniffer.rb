@@ -1,16 +1,16 @@
 require 'net/http'
 require './lib/house_mouse'
 
-class Panel
-  def render_content(requests); end
-end
-
+# FIXME
 RSpec.describe Sniffer do
   describe '.start' do
     threads = []
+
+    let(:packet) { File.read('./spec/fixtures/ipv4_packet') }
+
     socket = Socket.new(17, 3, 768)
 
-    threads << Thread.new { Sniffer.start(socket, Panel.new) }
+    threads << Thread.new { Sniffer.start(socket, RequestPanel.new(height: 0, width: 0)) }
     threads << Thread.new { Net::HTTP.get('google.com', '/') }
     threads << Thread.new { Net::HTTP.get('facebook.com', '/') }
     threads << Thread.new { Net::HTTP.get('brasfoot.com', '/') }
