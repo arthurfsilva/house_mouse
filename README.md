@@ -6,15 +6,20 @@
 </p>
 
 
-# HOUSE MOUSE
+# House Mouse
 
 House Mouse is a packet sniffer written in ruby with an awesome <a href="https://en.wikipedia.org/wiki/Text-based_user_interface">tui</a>
 
 <img src="./docs/screenshot1.png">
 
-## IN ACTION
+## In action
 <img src="./docs/firstcapture.gif">
 
+## Run
+
+```ruby
+ bin/house_mouse
+```
 
 ## TODO
  - Refactor
@@ -23,7 +28,6 @@ House Mouse is a packet sniffer written in ruby with an awesome <a href="https:/
  - Improve filter
  - Fix stop command
 
-<br />
 <br />
 
 ## Credits

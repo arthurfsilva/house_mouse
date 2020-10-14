@@ -15,7 +15,7 @@ module Gui
 
       def render_header
         prepare_header(@table.first).then do |header|
-          @window.print(1, 4, header, COLOR_BLUE)
+          @window.print(1, 4, header, Curses::COLOR_BLUE)
         end
 
         @table.shift
@@ -23,7 +23,7 @@ module Gui
 
       def render_body
         @table.each_with_index do |request, key|
-          color = COLOR_RED if key == @index
+          color = Curses::COLOR_RED if key == @index
 
           prepare_body(request).then { @window.print(key + 2, 4, _1, color) }
         end

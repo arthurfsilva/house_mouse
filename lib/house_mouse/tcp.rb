@@ -1,6 +1,7 @@
 class Tcp
   attr_accessor :data, :src_port, :dest_port, :sequence, :acknowledgment, :flags
 
+  # rubocop:disable Metrics/AbcSize, Layout/LineLength
   def initialize(raw_data)
     data = raw_data.unpack('C*')
 
@@ -18,4 +19,5 @@ class Tcp
 
     @data = raw_data[offset..]
   end
+  # rubocop:enable Metrics/AbcSize, Layout/LineLength
 end

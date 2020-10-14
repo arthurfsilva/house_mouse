@@ -1,4 +1,4 @@
-require './lib/ethernet'
+require './lib/house_mouse'
 
 RSpec.describe Ethernet do
   describe '.initialize' do

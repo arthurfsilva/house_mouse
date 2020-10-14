@@ -1,15 +1,5 @@
 require 'net/http'
-require 'socket'
-require 'pry'
-require 'curses'
-require './lib/ethernet'
-require './lib/ipv4'
-require './lib/tcp'
-require './lib/http'
-require './lib/sniffer'
-require './lib/gui/request_panel'
-require './lib/gui/menu_panel'
-require './lib/gui/widgets/window'
+require './lib/house_mouse'
 
 class Panel
   def render_content(requests); end

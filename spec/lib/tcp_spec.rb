@@ -1,4 +1,4 @@
-require './lib/tcp'
+require './lib/house_mouse'
 
 RSpec.describe Tcp do
   describe '.initialize' do

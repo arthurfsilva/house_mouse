@@ -1,8 +1,9 @@
 class Sniffer
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
   def self.start(socket, request_panel)
     requests = []
 
-    50.times do # TODO: Change to 15 seconds
+    50.times do
       raw_data, _addr = socket.recvfrom(65_535)
 
       ethernet = Ethernet.new(raw_data)
@@ -31,12 +32,14 @@ class Sniffer
 
     requests
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
 
   def self.filter(requests, request_panel, char = '')
     requests = requests.filter do |request|
       request[:destination].match(char) || request[:source].match(char) || request[:protocol].match(char)
     end
 
+    request_panel.clear
     request_panel.render_content(requests)
   end
 end

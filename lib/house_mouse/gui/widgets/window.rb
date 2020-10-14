@@ -1,7 +1,5 @@
 require_relative './table'
 
-include Curses
-
 module Gui
   module Widgets
     class Window
@@ -14,9 +12,9 @@ module Gui
           Curses.noecho
           Curses.start_color
 
-          Curses.init_pair(COLOR_BLUE, COLOR_WHITE, COLOR_BLUE)
-          Curses.init_pair(COLOR_RED, COLOR_BLACK, COLOR_MAGENTA)
-          Curses.init_pair(3, COLOR_BLACK, COLOR_GREEN)
+          Curses.init_pair(Curses::COLOR_BLUE, Curses::COLOR_WHITE, Curses::COLOR_BLUE)
+          Curses.init_pair(Curses::COLOR_RED, Curses::COLOR_BLACK, Curses::COLOR_MAGENTA)
+          Curses.init_pair(3, Curses::COLOR_BLACK, Curses::COLOR_GREEN)
         end
 
         def lines
@@ -41,7 +39,7 @@ module Gui
       end
 
       def print(row, col, content, color = 0)
-        color = color_pair(color.to_i) | A_NORMAL
+        color = Curses.color_pair(color.to_i) | Curses::A_NORMAL
 
         @panel.setpos(row, col)
         @panel.attron(color) do

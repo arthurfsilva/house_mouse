@@ -8,6 +8,9 @@ class MenuPanel < Gui::Widgets::Window
   KEY_Q = 'q'.freeze
   KEY_B = 'b'.freeze
   KEY_ENTER = 10
+  KEY_UP = Curses::KEY_UP
+  KEY_DOWN = Curses::KEY_DOWN
+  KEY_BACKSPACE = Curses::KEY_BACKSPACE
 
   def initialize(height:, width:, top:, left:)
     super(height, width, top, left)
@@ -59,28 +62,31 @@ class MenuPanel < Gui::Widgets::Window
     redraw
   end
 
+  # rubocop:disable Metrics/MethodLength
   def filter
     redraw(filter: ' ')
 
+    char = nil
     input = ''
 
-    while input != 10
-      input = @panel.getch
+    while char != 10
+      char = @panel.getch
 
-      if input == KEY_BACKSPACE
+      if char == KEY_BACKSPACE
         input = input.chop
-        redraw(filter: '')
-      elsif [KEY_UP, KEY_DOWN, KEY_ENTER].include?(input)
+      elsif [KEY_UP, KEY_DOWN, KEY_ENTER].include?(char)
         break
       else
-        input += input
+        input += char.to_s
       end
 
+      redraw(filter: '')
       @panel << input
 
       Sniffer.filter(@requests, @request_panel, input)
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   def clear_panel
     @request_panel.render_content([])

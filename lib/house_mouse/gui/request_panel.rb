@@ -17,12 +17,9 @@ class RequestPanel < Gui::Widgets::Window
   end
 
   def render_body(request)
-    clear
-    render_window
+    clear.then { render_window }
 
-    request.filter do |k, _v|
-      %i[source destination protocol info].include?(k)
-    end.map { "#{_1[0].capitalize}: #{_1[1]} | " }.join.then { self.print(2, 2, _1) }
+    render_body_header(request)
 
     self.print(3, 3, request[:flags], 3)
     self.print(5, 2, 'Data:')
@@ -30,5 +27,15 @@ class RequestPanel < Gui::Widgets::Window
     request[:data]&.split("\n")&.each_with_index { |line, index| self.print(index + 6, 8, line) }
 
     refresh
+  end
+
+  private
+
+  def render_body_header(request)
+    request = request.filter do |k, _v|
+      %i[source destination protocol info].include?(k)
+    end
+
+    request.map { "#{_1[0].capitalize}: #{_1[1]} | " }.join.then { self.print(2, 2, _1) }
   end
 end
